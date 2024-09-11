@@ -1,0 +1,71 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "entries",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "nodeId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "randomResult",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_nodeId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_randomResult",
+                "type": "string"
+            }
+        ],
+        "name": "addEntry",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getEntries",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "nodeId",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "randomResult",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct QRNGLedger.QRNGEntry[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
+    }
+]

@@ -1,0 +1,14 @@
+{
+  "name": "quantum-blockchain-automation",
+  "version": "1.0.0",
+  "description": "Quantum-based blockchain automation with distributed random number generation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "truffle": "^5.0.0"
+  },
+  "author": "Reece Dixon",
+  "license": "MIT"
+}
