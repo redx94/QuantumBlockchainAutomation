@@ -1,91 +1,106 @@
-# Quantum Blockchain Automation Script
+# Quantum Blockchain Automation Setup Script
 # © 2024 Reece Dixon. All Rights Reserved.
 
-# Function to check if a program is installed
-function Is-Installed($program) {
-    Get-Command $program -ErrorAction SilentlyContinue
+function Install-Python {
+    Write-Host "Python not found. Installing Python..."
+    Start-Process -NoNewWindow -Wait "https://www.python.org/ftp/python/3.10.5/python-3.10.5-amd64.exe" "/quiet InstallAllUsers=1 PrependPath=1" -Wait
+    Write-Host "Python installed."
 }
 
-# Function to install a program using chocolatey (for Windows installations)
-function Install-Program {
-    param(
-        [string]$programName,
-        [string]$chocoPackageName
-    )
-    
-    if (!(Is-Installed $programName)) {
-        Write-Host "$programName is not installed. Installing..."
-        
-        # Check if chocolatey is installed, if not, install it
-        if (!(Is-Installed choco)) {
-            Write-Host "Chocolatey is not installed. Installing Chocolatey..."
-            Set-ExecutionPolicy Bypass -Scope Process -Force; \
-            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
-            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-        }
-        
-        choco install $chocoPackageName -y
-    } else {
-        Write-Host "$programName is already installed."
-    }
+function Install-NodeJS {
+    Write-Host "Node.js not found. Installing Node.js..."
+    Invoke-WebRequest -Uri "https://nodejs.org/dist/v16.15.1/node-v16.15.1-x64.msi" -OutFile "$env:TEMP\nodejs.msi"
+    Start-Process msiexec.exe -ArgumentList "/i $env:TEMP\nodejs.msi /quiet" -Wait
+    Write-Host "Node.js installed."
 }
 
-# 1. Check and install Python if needed
-Install-Program "python" "python"
+function Install-GanacheCLI {
+    Write-Host "ganache-cli not found. Installing ganache-cli..."
+    npm install -g ganache-cli
+    Write-Host "ganache-cli installed."
+}
 
-# 2. Install pip if it's not found
+function Install-Truffle {
+    Write-Host "Truffle not found. Installing Truffle..."
+    npm install -g truffle
+    Write-Host "Truffle installed."
+}
+
+function Install-web3py {
+    Write-Host "web3.py not found. Installing web3.py..."
+    pip install web3
+    Write-Host "web3.py installed."
+}
+
+# Check if Python is installed
+if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
+    Install-Python
+} else {
+    Write-Host "Python is already installed."
+}
+
+# Check if pip is installed
 if (-not (Get-Command pip -ErrorAction SilentlyContinue)) {
-    Write-Host "pip not found. Installing pip..."
-    python -m ensurepip --upgrade
+    Write-Host "pip not found. Please install pip manually or check your Python installation."
+    exit
 } else {
     Write-Host "pip is already installed."
 }
 
-# 3. Install web3.py if needed
-if (-not (python -m pip show web3)) {
-    Write-Host "Installing web3.py..."
-    python -m pip install web3
+# Check if web3.py is installed
+if (-not (pip show web3)) {
+    Install-web3py
 } else {
     Write-Host "web3.py is already installed."
 }
 
-# 4. Check and install Node.js and npm if needed
-Install-Program "node" "nodejs-lts"
+# Check if Node.js is installed
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+    Install-NodeJS
+} else {
+    Write-Host "Node.js is already installed."
+}
 
-# 5. Install Truffle if needed
-if (!(Is-Installed truffle)) {
-    Write-Host "Truffle not found. Installing Truffle..."
-    npm install -g truffle
+# Check if npm is installed
+if (-not (Get-Command npm -ErrorAction SilentlyContinue)) {
+    Write-Host "npm not found. Please check your Node.js installation."
+    exit
+} else {
+    Write-Host "npm is already installed."
+}
+
+# Check if Truffle is installed
+if (-not (Get-Command truffle -ErrorAction SilentlyContinue)) {
+    Install-Truffle
 } else {
     Write-Host "Truffle is already installed."
 }
 
-# 6. Check and install Ganache CLI if needed
-if (!(Is-Installed ganache-cli)) {
-    Write-Host "Installing Ganache CLI..."
-    npm install -g ganache-cli
+# Check if ganache-cli is installed
+if (-not (Get-Command ganache-cli -ErrorAction SilentlyContinue)) {
+    Install-GanacheCLI
 } else {
-    Write-Host "Ganache CLI is already installed."
+    Write-Host "ganache-cli is already installed."
 }
 
 # Start Ganache CLI
-Write-Host "Starting Ganache..."
-Start-Process "ganache-cli"
+Write-Host "Starting ganache-cli..."
+Start-Process -NoNewWindow -Wait "ganache-cli"
 
-# Deploy smart contracts using Truffle
+# Deploy the smart contract
 Write-Host "Deploying the smart contract..."
 truffle compile
 truffle migrate --reset --network development
 
 # Assuming the contract is now built, update paths dynamically for contract info
-$contractJsonPath = "build/contracts/QRNGLedger.json"
+$contractJsonPath = "$PWD\build\contracts\QRNGLedger.json"
 if (-not (Test-Path $contractJsonPath)) {
     Write-Host "Smart contract build not found. Please ensure Truffle compiled the contract."
     exit
 }
 
 # Update aggregator with contract address and ABI
-$aggregatorPath = "C:\Users\reece\Downloads\QuantumBlockchainAutomation\aggregator.py"
+$aggregatorPath = "$PWD\aggregator.py"
 $contractJson = Get-Content $contractJsonPath | ConvertFrom-Json
 $contractAddress = $contractJson.networks["5777"].address
 $abi = $contractJson.abi | ConvertTo-Json
@@ -94,6 +109,7 @@ $abi = $contractJson.abi | ConvertTo-Json
 $abi | Out-File "contract_abi.json"
 
 Write-Host "Setup complete. Starting nodes and aggregator..."
-Start-Process "python" "node1.py"
-Start-Process "python" "node2.py"
-Start-Process "python" "aggregator.py"
+Start-Process -NoNewWindow python3 "$PWD\node1.py"
+Start-Process -NoNewWindow python3 "$PWD\node2.py"
+Start-Process -NoNewWindow python3 "$PWD\aggregator.py"
+
