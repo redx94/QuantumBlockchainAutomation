@@ -1,0 +1,18 @@
+{
+    "name": "Quantum Blockchain Automation",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.10",  // Use Python base image
+    "features": {
+      "node": "16",  // Install Node.js
+      "docker-in-docker": "latest",  // Use Docker for Ganache
+      "gh-cli": "latest"  // GitHub CLI for easier repository management
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-python.python",
+          "dbaeumer.vscode-eslint"
+        ]
+      }
+    },
+    "postCreateCommand": "pip install web3 && npm install -g truffle ganache-cli"
+  }
