@@ -1,0 +1,18 @@
+from qiskit import QuantumCircuit, Aer, transpile, assemble
+
+def quantum_random_number():
+    qc = QuantumCircuit(1, 1)
+    qc.h(0)  # Put the qubit in superposition
+    qc.measure(0, 0)  # Measure the result
+    
+    # Simulate the quantum circuit
+    simulator = Aer.get_backend('qasm_simulator')
+    t_qc = transpile(qc, simulator)
+    qobj = assemble(t_qc)
+    
+    result = simulator.run(qobj).result()
+    counts = result.get_counts(qc)
+    return int(list(counts.keys())[0])
+
+quantum_result = quantum_random_number()
+print(f"Quantum Random Number: {quantum_result}")
