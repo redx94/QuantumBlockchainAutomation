@@ -1,29 +1,29 @@
 #!/bin/bash
+
+# Step 1: Free necessary ports
+echo "Freeing up necessary ports..."
+./free_ports.sh
+
+# Step 2: Start Ganache (in the background)
 echo "Starting Ganache..."
-ganache-cli &  # Run Ganache in the background
+nohup ganache-cli > ganache.log 2>&1 &
 
-echo "Checking for web3.py installation..."
-if ! python3 -m pip show web3 > /dev/null 2>&1; then
-    echo "Installing web3.py..."
-    python3 -m pip install web3
-else
-    echo "web3.py is already installed."
-fi
-
-echo "Checking for Truffle installation..."
-if ! command -v truffle > /dev/null; then
-    echo "Installing Truffle..."
-    npm install -g truffle
-else
-    echo "Truffle is already installed."
-fi
-
+# Step 3: Deploy the smart contract using Truffle
 echo "Deploying the smart contract..."
-truffle compile
-truffle migrate --reset --network development
+truffle migrate --reset
 
-echo "Smart contract deployed. Starting the nodes..."
-# Run the nodes and aggregator (adjust these as needed)
-python3 node1.py &
-python3 node2.py &
-python3 aggregator.py &
+# Step 4: Extract ABI and save to file
+echo "Extracting ABI..."
+python extract_abi.py
+
+# Step 5: Start the nodes
+echo "Starting Node 1..."
+nohup python node1.py > node1.log 2>&1 &
+echo "Starting Node 2..."
+nohup python node2.py > node2.log 2>&1 &
+
+# Step 6: Start the aggregator
+echo "Starting the aggregator..."
+nohup python aggregator.py > aggregator.log 2>&1 &
+
+echo "All services started. Check log files for details."

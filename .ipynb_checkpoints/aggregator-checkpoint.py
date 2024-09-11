@@ -1,3 +1,13 @@
+# aggregator.py 
+# © 2024 Reece Dixon. All Rights Reserved. 
+# 
+# Proprietary License: This code is licensed under the Reece Dixon Proprietary License. Unauthorized copying,
+# distribution, or modification of this code is strictly prohibited without express written permission from the owner.
+#
+# Confidentiality Notice: The information contained in this file is confidential and proprietary to Reece Dixon. 
+# It is intended solely for the use of the authorized recipient. Any unauthorized use, reproduction, 
+# or disclosure of this material is prohibited.
+
 import zmq
 from web3 import Web3, HTTPProvider
 import json
@@ -11,15 +21,10 @@ def main():
 
     # Blockchain setup
     w3 = Web3(HTTPProvider('http://127.0.0.1:7545'))  # Ganache RPC URL
-
-    # Load contract details from Truffle artifact
-    with open('build/contracts/QRNGLedger.json') as f:
-        contract_json = json.load(f)
-        abi = contract_json['abi']
-        contract_address = contract_json['networks']['development']['address']
-
-    # Create the contract instance
-    contract = w3.eth.contract(address=contract_address, abi=abi)
+    # Replace with your contract address and ABI
+    with open("path/to/your/contract_abi.json") as f:
+        abi = json.load(f)
+    contract = w3.eth.contract(address='YOUR_CONTRACT_ADDRESS', abi=abi)
 
     aggregated_results = ''
     num_nodes = 2  # Two nodes

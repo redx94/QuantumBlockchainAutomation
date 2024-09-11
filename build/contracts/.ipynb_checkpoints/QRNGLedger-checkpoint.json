@@ -5271,16 +5271,10 @@
       "links": {},
       "address": "0xA320fef26F1AfB4475C7BfA12177C40F20F47280",
       "transactionHash": "0xacb995eeddce7135d0580ca35ddca97d2fca8c6133536c6d9a1eadeaed70e4f1"
-    },
-    "1726047776737": {
-      "events": {},
-      "links": {},
-      "address": "0x7CEd4cD8C2064eAC967c9921C6D05b17DBA5A41B",
-      "transactionHash": "0x24270b18270ae3a31fb2a653b0b516507fdb164254076221515059ef84c00498"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-09-11T09:43:00.086Z",
+  "updatedAt": "2024-09-11T09:26:43.995Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

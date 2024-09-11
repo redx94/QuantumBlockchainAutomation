@@ -1,0 +1,76 @@
+Ganache CLI v6.12.2 (ganache-core: 2.13.2)
+
+Available Accounts
+==================
+(0) 0x66A6A986d2F3D6a5fB1be26A02E789860A4E16a8 (100 ETH)
+(1) 0xbF03d06D8E2E6c5033C6e0Bf522b73E4d78EF127 (100 ETH)
+(2) 0x8055c2b2a6461792317930159bfef83eC4e30ACB (100 ETH)
+(3) 0xea57fBd85e29308B88aB093C3b0107c45B5f217c (100 ETH)
+(4) 0x1a8F00dC117B6ED93F603B9C5e180C5ffD6435d1 (100 ETH)
+(5) 0x833d90dc7C9Cd6C2845f0902DA20300B3a6B4917 (100 ETH)
+(6) 0x64d7bF445Af4930199FA567D6E94eC3E0A3A156d (100 ETH)
+(7) 0x01b9ab63d470c0973F4bE4dCB66698Dbd2AFda94 (100 ETH)
+(8) 0xe6218D3879965a7D7b0b73d0256e2180f64686ac (100 ETH)
+(9) 0x1096dFad11735F81fF66875F7C2400b251669330 (100 ETH)
+
+Private Keys
+==================
+(0) 0x678bafddb063b82f00bb720d657b1c6ef7054e6e0ce6c98aafbb9ca32d41da0a
+(1) 0xd15121aa6497869ff47ae1bf09c77a5c8fdc0c6c2d4a2610003a4395bf33f3f1
+(2) 0x33f1be38168204baba4284c5af9715863d5d1c311f8bc4007b8a5b18594f0d14
+(3) 0xd0a3dbccf3370f401fbd7913bc8cdf16616a8bb28c032fc8fa2cde6fcea5d0dc
+(4) 0x315aa676a1bffefeac075960985f62e43e85062e3ba712c12e6d5c09a7cc4e77
+(5) 0x1abb9ca626b0dfad8bf44284b19eed0210f104bb3dbec9ea6ead932fcef48062
+(6) 0x160f5846d0c3087911df0660bf56e9f3c531cd586e4b5544fd28027851c2f58f
+(7) 0xae80a4afcb68d4df08939f9b19b5136eefce054c97822127c7bb4a6836b1c7a2
+(8) 0xd22fe711ec779afadab8bfa868ff8221e5df2ba7dacd6850c94afd38b0ad30f9
+(9) 0x50d7e0f926bf8260db4a596ff9f61611d3552963fb61052864cec97bc216a054
+
+HD Wallet
+==================
+Mnemonic:      runway trade palace retire artwork neck price west during frequent mountain tent
+Base HD Path:  m/44'/60'/0'/0/{account_index}
+
+Gas Price
+==================
+20000000000
+
+Gas Limit
+==================
+6721975
+
+Call Gas Limit
+==================
+9007199254740991
+
+Listening on 127.0.0.1:8545
+eth_blockNumber
+net_version
+eth_accounts
+eth_getBlockByNumber
+eth_accounts
+net_version
+eth_getBlockByNumber
+eth_getBlockByNumber
+net_version
+eth_getBlockByNumber
+eth_estimateGas
+net_version
+eth_blockNumber
+eth_getBlockByNumber
+eth_estimateGas
+eth_getBlockByNumber
+eth_gasPrice
+eth_sendTransaction
+
+  Transaction: 0x24270b18270ae3a31fb2a653b0b516507fdb164254076221515059ef84c00498
+  Contract created: 0x7ced4cd8c2064eac967c9921c6d05b17dba5a41b
+  Gas usage: 500313
+  Block Number: 1
+  Block Time: Wed Sep 11 2024 09:43:00 GMT+0000 (Coordinated Universal Time)
+
+eth_getTransactionReceipt
+eth_getCode
+eth_getTransactionByHash
+eth_getBlockByNumber
+eth_getBalance
