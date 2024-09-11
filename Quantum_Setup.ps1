@@ -1,71 +1,99 @@
-
 # Quantum Blockchain Automation Script
 # © 2024 Reece Dixon. All Rights Reserved.
-# Proprietary License: Unauthorized copying, distribution, or modification is prohibited without express written permission.
-# Confidentiality Notice: The information contained in this script is confidential and proprietary to Reece Dixon.
 
-# Check for Ganache installation and start it
-Write-Host "Starting Ganache blockchain..."
-Start-Process "C:\Path\To\Ganache\Ganache.exe"
+# Function to check if a program is installed
+function Is-Installed($program) {
+    Get-Command $program -ErrorAction SilentlyContinue
+}
 
-# Check if web3.py is installed, if not, install it
-Write-Host "Checking for web3.py installation..."
-$web3Installed = pip show web3
+# Function to install a program using chocolatey (for Windows installations)
+function Install-Program {
+    param(
+        [string]$programName,
+        [string]$chocoPackageName
+    )
+    
+    if (!(Is-Installed $programName)) {
+        Write-Host "$programName is not installed. Installing..."
+        
+        # Check if chocolatey is installed, if not, install it
+        if (!(Is-Installed choco)) {
+            Write-Host "Chocolatey is not installed. Installing Chocolatey..."
+            Set-ExecutionPolicy Bypass -Scope Process -Force; \
+            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
+            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+        }
+        
+        choco install $chocoPackageName -y
+    } else {
+        Write-Host "$programName is already installed."
+    }
+}
 
-if (!$web3Installed) {
-    Write-Host "web3.py not found. Installing..."
-    pip install web3
+# 1. Check and install Python if needed
+Install-Program "python" "python"
+
+# 2. Install pip if it's not found
+if (-not (Get-Command pip -ErrorAction SilentlyContinue)) {
+    Write-Host "pip not found. Installing pip..."
+    python -m ensurepip --upgrade
+} else {
+    Write-Host "pip is already installed."
+}
+
+# 3. Install web3.py if needed
+if (-not (python -m pip show web3)) {
+    Write-Host "Installing web3.py..."
+    python -m pip install web3
 } else {
     Write-Host "web3.py is already installed."
 }
 
-# Check for Truffle installation, if not, install it
-Write-Host "Checking for Truffle installation..."
-$truffleInstalled = Get-Command truffle -ErrorAction SilentlyContinue
+# 4. Check and install Node.js and npm if needed
+Install-Program "node" "nodejs-lts"
 
-if (!$truffleInstalled) {
-    Write-Host "Truffle not found. Installing..."
+# 5. Install Truffle if needed
+if (!(Is-Installed truffle)) {
+    Write-Host "Truffle not found. Installing Truffle..."
     npm install -g truffle
 } else {
     Write-Host "Truffle is already installed."
 }
 
-# Set the path for the smart contract
-$contractPath = "C:\QuantumBlockchainAutomation\QRNGLedger.sol"
+# 6. Check and install Ganache CLI if needed
+if (!(Is-Installed ganache-cli)) {
+    Write-Host "Installing Ganache CLI..."
+    npm install -g ganache-cli
+} else {
+    Write-Host "Ganache CLI is already installed."
+}
 
-# Compile and deploy the smart contract using Truffle
+# Start Ganache CLI
+Write-Host "Starting Ganache..."
+Start-Process "ganache-cli"
+
+# Deploy smart contracts using Truffle
 Write-Host "Deploying the smart contract..."
 truffle compile
 truffle migrate --reset --network development
 
-# Get the contract address and ABI after deployment
-Write-Host "Retrieving contract address and ABI..."
-$contractAddress = Get-Content "build/contracts/QRNGLedger.json" | ConvertFrom-Json | Select-Object -ExpandProperty networks | Select-Object -ExpandProperty '5777' | Select-Object -ExpandProperty address
-$contractAbi = Get-Content "build/contracts/QRNGLedger.json" | ConvertFrom-Json | Select-Object -ExpandProperty abi
+# Assuming the contract is now built, update paths dynamically for contract info
+$contractJsonPath = "build/contracts/QRNGLedger.json"
+if (-not (Test-Path $contractJsonPath)) {
+    Write-Host "Smart contract build not found. Please ensure Truffle compiled the contract."
+    exit
+}
 
-# Replace placeholders in the aggregator.py script
-$aggregatorPath = "C:\QuantumBlockchainAutomation\aggregator.py"
+# Update aggregator with contract address and ABI
+$aggregatorPath = "C:\Users\reece\Downloads\QuantumBlockchainAutomation\aggregator.py"
+$contractJson = Get-Content $contractJsonPath | ConvertFrom-Json
+$contractAddress = $contractJson.networks["5777"].address
+$abi = $contractJson.abi | ConvertTo-Json
 
-# Update contract address
-Write-Host "Updating contract address in aggregator.py..."
 (Get-Content $aggregatorPath) -replace 'YOUR_CONTRACT_ADDRESS', $contractAddress | Set-Content $aggregatorPath
+$abi | Out-File "contract_abi.json"
 
-# Save ABI to a JSON file
-Write-Host "Saving ABI to contract_abi.json..."
-$abiPath = "C:\QuantumBlockchainAutomation\contract_abi.json"
-$contractAbi | ConvertTo-Json | Set-Content $abiPath
-
-# Ensure the aggregator.py script points to the correct ABI file
-Write-Host "Updating ABI path in aggregator.py..."
-(Get-Content $aggregatorPath) -replace 'path/to/your/contract_abi.json', $abiPath | Set-Content $aggregatorPath
-
-# Start the nodes
-Write-Host "Starting Node 1 and Node 2..."
-Start-Process "python" "C:\QuantumBlockchainAutomation\node1.py"
-Start-Process "python" "C:\QuantumBlockchainAutomation\node2.py"
-
-# Start the aggregator
-Write-Host "Starting the aggregator..."
-Start-Process "python" $aggregatorPath
-
-Write-Host "Setup complete. Blockchain logging in progress..."
+Write-Host "Setup complete. Starting nodes and aggregator..."
+Start-Process "python" "node1.py"
+Start-Process "python" "node2.py"
+Start-Process "python" "aggregator.py"
