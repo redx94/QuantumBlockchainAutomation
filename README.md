@@ -1,10 +1,11 @@
 
 # QuantumBlockchainAutomation
+
 ## Project Overview
 
-Welcome to **QuantumBlockchainAutomation**, the groundbreaking project that merges **Quantum Computing** and **Blockchain Technology** to create a decentralized, quantum-powered data integrity system. This repository houses everything you need to run a **Distributed Quantum Random Number Generator (QRNG)**, which logs results immutably to the blockchain. 
+Welcome to **QuantumBlockchainAutomation**, the groundbreaking project that merges **Quantum Computing** and **Blockchain Technology** to create a decentralized, quantum-powered data integrity system. This repository houses everything you need to run a **Distributed Quantum Random Number Generator (QRNG)**, which logs results immutably to the blockchain.
 
-This project is designed to demonstrate a **decentralized quantum system** that generates random numbers using quantum computing, aggregates them across multiple nodes, and securely logs them to a blockchain for immutable records. 
+This project is designed to demonstrate a **decentralized quantum system** that generates random numbers using quantum computing, aggregates them across multiple nodes, and securely logs them to a blockchain for immutable records.
 
 ### Why Quantum and Blockchain?
 
@@ -33,30 +34,37 @@ This repo automates everything from **smart contract deployment**, to **node set
 ## Components
 
 ### 1. **Quantum Random Number Generation (QRNG)**
+
 - **Qiskit-based QRNG** generates random numbers through quantum circuits (Hadamard gates).
 - Each node runs a quantum circuit and contributes random data.
 
 ### 2. **ZeroMQ for Distributed Nodes**
+
 - **ZeroMQ** facilitates communication between nodes, allowing data to flow seamlessly between different entities.
   
 ### 3. **Blockchain Integration with Ethereum (Ganache)**
+
 - **Smart Contracts** (written in Solidity) ensure random data is logged securely and immutably to the blockchain.
   
 ### 4. **Automation via PowerShell & Batch Scripts**
+
 - **PowerShell** and **Batch Scripts** automate everything from installing dependencies, deploying smart contracts, and running the nodes.
 
 ---
 
 ## Setup and Installation
 
-### Prerequisites:
+### Prerequisites
+
 - **Ganache**: Local Ethereum blockchain for testing.
 - **Python**: Used for running quantum simulations and node operations.
 - **Node.js** and **Truffle**: For smart contract compilation and deployment.
 - **Git**: For cloning the repository.
 
-### Installation Steps:
+### Installation Steps
+
 1. Clone this repository:
+
     ```bash
     git clone https://github.com/redx94/QuantumBlockchainAutomation.git
     cd QuantumBlockchainAutomation
@@ -64,10 +72,13 @@ This repo automates everything from **smart contract deployment**, to **node set
 
 2. Install dependencies:
     - For Python dependencies:
+
       ```bash
       pip install -r requirements.txt
       ```
+
     - For Node.js dependencies:
+
       ```bash
       npm install
       ```
@@ -77,12 +88,14 @@ This repo automates everything from **smart contract deployment**, to **node set
 
 4. Deploy Smart Contracts:
     - **Truffle** is used to deploy the contract to Ganache.
+
     ```bash
     truffle migrate --reset --network development
     ```
 
 5. Run the automation scripts:
     - Use the `.bat` file for automatic deployment:
+
     ```bash
     Quantum_Automation.bat
     ```
@@ -94,14 +107,15 @@ This repo automates everything from **smart contract deployment**, to **node set
 ### **PowerShell & Batch Script Automation**
 
 - **Quantum_Setup.ps1**:
-    - Handles smart contract deployment, updates the aggregator script with the correct contract address and ABI, and runs the nodes and aggregator.
-    - Installs necessary dependencies, including `web3.py` and `Truffle`, if not already present.
+  - Handles smart contract deployment, updates the aggregator script with the correct contract address and ABI, and runs the nodes and aggregator.
+  - Installs necessary dependencies, including `web3.py` and `Truffle`, if not already present.
 
 - **Quantum_Automation.bat**:
-    - Simplifies everything into one command.
-    - Clones the repository, runs the PowerShell script, and provides a clean interface for setup.
+  - Simplifies everything into one command.
+  - Clones the repository, runs the PowerShell script, and provides a clean interface for setup.
 
 ### **Deployment Steps Handled by Automation:**
+
 1. **Ganache** startup and connection.
 2. **Truffle** compilation and smart contract deployment.
 3. **Node and Aggregator** startup.
@@ -113,7 +127,9 @@ This repo automates everything from **smart contract deployment**, to **node set
 ## Smart Contracts
 
 ### QRNGLedger.sol
+
 This Solidity contract stores quantum random numbers and their associated node IDs in an immutable ledger.
+
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
@@ -148,10 +164,12 @@ Using **Qiskit**, we generate quantum random numbers via Hadamard gates on qubit
 ## GitHub Automation & CI/CD
 
 We include **GitHub Actions** for automated deployments, ensuring the smart contracts are always up-to-date. You can set up GitHub workflows to automate:
+
 1. **Smart Contract Compilation and Deployment**: Automated upon new contract changes.
 2. **Node Testing**: Run simulations to verify node behavior using distributed quantum random number generation.
 
-### Sample GitHub Workflow (.github/workflows/deploy.yml):
+### Sample GitHub Workflow (.github/workflows/deploy.yml)
+
 ```yaml
 name: Deploy Smart Contract
 
@@ -186,7 +204,8 @@ jobs:
 
 ## How to Use
 
-### Running the System:
+### Running the System
+
 1. Clone the repo, install dependencies, and run the `Quantum_Automation.bat` file.
 2. Watch as the script deploys the contract, starts nodes, and logs quantum data to the blockchain.
 
