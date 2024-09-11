@@ -31,7 +31,7 @@ if (!$truffleInstalled) {
 }
 
 # Set the path for the smart contract
-$contractPath = "C:\Path\To\Your\QRNGLedger.sol"
+$contractPath = "C:\QuantumBlockchainAutomation\QRNGLedger.sol"
 
 # Compile and deploy the smart contract using Truffle
 Write-Host "Deploying the smart contract..."
@@ -44,7 +44,7 @@ $contractAddress = Get-Content "build/contracts/QRNGLedger.json" | ConvertFrom-J
 $contractAbi = Get-Content "build/contracts/QRNGLedger.json" | ConvertFrom-Json | Select-Object -ExpandProperty abi
 
 # Replace placeholders in the aggregator.py script
-$aggregatorPath = "C:\Path\To\Your\aggregator.py"
+$aggregatorPath = "C:\QuantumBlockchainAutomation\aggregator.py"
 
 # Update contract address
 Write-Host "Updating contract address in aggregator.py..."
@@ -52,7 +52,7 @@ Write-Host "Updating contract address in aggregator.py..."
 
 # Save ABI to a JSON file
 Write-Host "Saving ABI to contract_abi.json..."
-$abiPath = "C:\Path\To\Your\contract_abi.json"
+$abiPath = "C:\QuantumBlockchainAutomation\contract_abi.json"
 $contractAbi | ConvertTo-Json | Set-Content $abiPath
 
 # Ensure the aggregator.py script points to the correct ABI file
@@ -61,8 +61,8 @@ Write-Host "Updating ABI path in aggregator.py..."
 
 # Start the nodes
 Write-Host "Starting Node 1 and Node 2..."
-Start-Process "python" "C:\Path\To\Your\node1.py"
-Start-Process "python" "C:\Path\To\Your\node2.py"
+Start-Process "python" "C:\QuantumBlockchainAutomation\node1.py"
+Start-Process "python" "C:\QuantumBlockchainAutomation\node2.py"
 
 # Start the aggregator
 Write-Host "Starting the aggregator..."
