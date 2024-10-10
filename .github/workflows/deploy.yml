@@ -1,9 +1,6 @@
 name: Deploy Smart Contract
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   deploy:
@@ -11,20 +8,18 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
-
+      uses: actions/checkout@v2
+    
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v2
       with:
-        node-version: '*'
+        node-version: '20'
 
     - name: Install dependencies
       run: npm install
 
-    - name: Install Truffle
-      run: npm install -g truffle
-
-    - name: Compile and Deploy Smart Contract
-      run: |
-        npm run build
-        truffle migrate --reset --network development
+    - name: Start Ganache
+      run: npx ganache-cli -p 8545 -m "test test test test test test test test test test test junk" &
+    
+    - name: Deploy contract
+      run: npx truffle migrate --network development
