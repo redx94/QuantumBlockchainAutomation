@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Blockchain Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Quantum Blockchain Dashboard</h1>
+    <canvas id="randomDataChart" width="400" height="200"></canvas>
+
+    <script>
+        async function fetchNodeData() {
+            const response = await fetch('/api/nodes');
+            const data = await response.json();
+            return data.nodes.map(node => parseInt(node.last_random_number, 2));
+        }
+
+        async function renderChart() {
+            const ctx = document.getElementById('randomDataChart').getContext('2d');
+            const nodeData = await fetchNodeData();
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: nodeData.map((_, index) => `Node ${index + 1}`),
+                    datasets: [{
+                        label: 'Quantum Random Data',
+                        data: nodeData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        renderChart();
+    </script>
+</body>
+</html>
