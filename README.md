@@ -225,7 +225,7 @@ We envision this system as the first step toward **quantum data clouds**, where 
 
 Imagine a world where **quantum-level randomness** secures everything from **financial systems** and **decentralized games** to **voting systems**. For instance, picture a blockchain-based voting system where quantum-generated randomness ensures voter anonymity and prevents tampering, or a financial application where quantum-level security protects transactions from any cyber threats. These are just a few examples of how quantum technology could revolutionize our daily lives.
 
-We invite developers to **fork** this project, **experiment**, and **contribute** to making a quantum-secured future a reality! 🚀✨
+We invite developers to **fork** this project, **experiment**, and **contribute** to making a quantum-secured future a reality!! 🚀✨
 
 ---
 
