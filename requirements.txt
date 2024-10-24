@@ -2,4 +2,4 @@ Flask
 qiskit
 qiskit-ibmq-provider
 web3
-ZeroMQ
+pyzmq
