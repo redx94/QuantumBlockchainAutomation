@@ -4,4 +4,3 @@ qiskit-ibmq-provider
 web3
 pyzmq
 setuptools
-distutils
